@@ -25,7 +25,11 @@ $currentUser = getCurrentUser(API_URL . 'status', $cookie);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	//curl发送请求
 	$url = API_URL . $api['url'];
-	$postData = $_POST;
+    $postData = array();
+    foreach ($_POST as $key => $value) {
+        if ($value === '') continue;
+        $postData[] = $value;
+    }
 
 	$response = getCurl($url, $postData, $cookie);
 }
@@ -276,13 +280,9 @@ function getCurrentUser($url, $cookie)
 			<div class="panel panel-default">
 				<div class="panel-heading">返回：</div>
 				<div class="panel-body">
-					<?php if (is_array($response)) : ?>
-						<?php foreach ($response as $key => $value) :?>
-							<p><?php echo $key . ':' . $value?></p>
-						<?php endforeach;?>
-					<?php else :?>
-						<?php echo $response; ?>
-					<?php endif;?>
+                    <pre>
+					<?php var_dump($response);?>
+                    </pre>
 				</div>
 			</div>
     	</div>

@@ -10,8 +10,8 @@ return array(
 			'id'		=> '活动id,默认0,0表示未添加活动',
 			'platform'	=> '平台          默认0            0表示微信公众账号 1表示朋友圈（当有活动id时，该参数无效）',
 			'type'		=> '平台类型   默认weixin   weixin | weibo （当有活动id时，该参数无效）',
-			'id'		=> '页码          默认1',
-			'id'		=> '页数          默认10',
+			'page'		=> '页码          默认1',
+			'pageSize'	=> '页数          默认10',
 		),
 		'response'=>array(
 			'error' => '错误代号 0表示没有错误，1表示有错误',

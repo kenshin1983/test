@@ -5,7 +5,7 @@ define('ROOT_DIR', __DIR__);
 define('API_DIR', ROOT_DIR . '/api');
 define('GET_HEADER', 1);
 define('API_COOKIE_KEY', 'api-cookie');
-define('API_URL', 'http://wtb.local/');
+define('API_URL', 'http://wtb.local:8080/');
 
 $list = getAll(API_DIR);
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postData = array();
     foreach ($_POST as $key => $value) {
         if ($value === '') continue;
-        $postData[] = $value;
+        $postData[$key] = $value;
     }
 
 	$response = getCurl($url, $postData, $cookie);
@@ -81,6 +81,7 @@ function getCurl($url, $postData, $cookie)
     curl_setopt($curl, CURLOPT_TIMEOUT, 30); //设置超时限制防止死循环
     curl_setopt($curl, CURLOPT_HEADER, GET_HEADER); //显示返回的Header区域内容
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); //获取的信息以文件流的形式返回
+    curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
     $result = curl_exec($curl); //执行一个curl会话
     curl_close($curl); //关闭curl
 
@@ -141,6 +142,7 @@ function getCaptcha($url, $cookie)
     curl_setopt($curl, CURLOPT_TIMEOUT, 30); //设置超时限制防止死循环
     curl_setopt($curl, CURLOPT_HEADER, GET_HEADER); //显示返回的Header区域内容
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); //获取的信息以文件流的形式返回
+    curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
     $result = curl_exec($curl); //执行一个curl会话
     curl_close($curl); //关闭curl
 
@@ -156,8 +158,7 @@ function getCaptcha($url, $cookie)
 			$cookie[$match[1]] = $match[2];
 		}
     }
-    setcookie(API_COOKIE_KEY, serialize($cookie));
-
+    @setcookie(API_COOKIE_KEY, serialize($cookie));
     file_put_contents('temp/captcha.png', $body);
     return 'temp/captcha.png?t=' . time();
 }
@@ -194,6 +195,8 @@ function getCurrentUser($url, $cookie)
     curl_setopt($curl, CURLOPT_TIMEOUT, 30); //设置超时限制防止死循环
     curl_setopt($curl, CURLOPT_HEADER, 0); //显示返回的Header区域内容
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); //获取的信息以文件流的形式返回
+    curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+    
     $result = curl_exec($curl); //执行一个curl会话
     curl_close($curl); //关闭curl
 

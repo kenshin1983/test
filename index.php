@@ -3,9 +3,8 @@ error_reporting(E_ALL);
 
 define('ROOT_DIR', __DIR__);
 define('API_DIR', ROOT_DIR . '/api');
-define('GET_HEADER', 1);
-define('API_COOKIE_KEY', 'api-cookie');
-define('API_URL', 'http://wtb.local:8080/');
+
+require ROOT_DIR . '/config.php';
 
 $list = getAll(API_DIR);
 

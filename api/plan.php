@@ -36,5 +36,19 @@ return array(
                 'other_num'			=> '进行中',
 			)
 		),
+	),
+	array(
+		'name'	=> '修改活动状态接口',
+		'desc'	=> '用于修改活动状态，包括保存草稿和发布活动',
+		'url'	=> 'plan/pub/%id%',
+		'type'	=> 'post',
+		'params'=> array(
+			'id'		=> '活动ID',
+			'status'	=> '修改状态，0:保存草稿(默认)；1:发布活动'
+		),
+		'response'=>array(
+			'error' => '错误代号 0表示没有错误，1表示有错误',
+			'message' => '错误信息'
+		),
 	)
 );

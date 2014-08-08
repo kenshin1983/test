@@ -5,6 +5,7 @@ define('ROOT_DIR', __DIR__);
 define('API_DIR', ROOT_DIR . '/api');
 
 require ROOT_DIR . '/config.php';
+require ROOT_DIR . '/lib/Curl.php';
 
 $list = getAll(API_DIR);
 
@@ -17,12 +18,14 @@ if (isset($_GET['r'])) {
 
 $cookie = isset($_COOKIE[API_COOKIE_KEY]) ? unserialize($_COOKIE[API_COOKIE_KEY]) : array();
 
+$curl = new Curl();
+$currentUser = $curl->get(API_URL . 'status');
+$currentUser = $currentUser->body;
+
 $response = '';
-
-$currentUser = getCurrentUser(API_URL . 'status', $cookie);
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	//curl发送请求
+    $curl->get(API_URL . $api['url'] . 'status');
 	$url = API_URL . $api['url'];
     $postData = array();
     foreach ($_POST as $key => $value) {
@@ -282,9 +285,8 @@ function getCurrentUser($url, $cookie)
 			<div class="panel panel-default">
 				<div class="panel-heading">返回：</div>
 				<div class="panel-body">
-                    <pre>
-					<?php var_dump($response);?>
-                    </pre>
+                    <pre><?php if(is_string($response)) echo $response; 
+                               else var_dump($response); ?></pre>
 				</div>
 			</div>
     	</div>

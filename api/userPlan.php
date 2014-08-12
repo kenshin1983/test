@@ -91,6 +91,23 @@ return array(
 			'media_id' => '媒体账号id',
 			'pos'      => '广告位',
 			'price'    => '价格，单位元',
+			'content'  => '转发/直发内容，如没有，请勿传',
+		),
+		'response'=>array(
+			'error' => '错误代号 0表示没有错误，1表示有错误',
+			'message' => '错误信息'
+		),
+	),
+	array(
+		'name'	=> '媒体主再次投标接口',
+		'desc'	=> '媒体主在被广告主取消之后，再次提交竞标价格',
+		'url'	=> 'user/plan/editbid',
+		'type'	=> 'post',
+		'params'=> array(
+			'plan_id'  => '活动id',
+			'media_id' => '媒体账号id',
+			'price'    => '修改后的价格，不能高于原价',
+			'content'  => '转发/直发内容，如没有，请勿传',
 		),
 		'response'=>array(
 			'error' => '错误代号 0表示没有错误，1表示有错误',

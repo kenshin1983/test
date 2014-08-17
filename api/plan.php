@@ -194,7 +194,7 @@ return array(
 		),
 		'response'=>array(
 			'error'     => '错误代号 0表示没有错误，1表示有错误 2 表示余额不足 3 表示超出预算',
-			'message'   => '错误信息'
+			'message'   => '错误信息',
 			// 以下只会在t   == check的时候才会返回
 			'cost'      => '最终总消费',
 			'media_ids' => '最终媒体账号ID',

@@ -48,7 +48,8 @@ class Curl
             CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
             CURLOPT_USERAGENT       => 'Phalcon HTTP/1.0 (Curl)',
             CURLOPT_CONNECTTIMEOUT  => 30,
-            CURLOPT_TIMEOUT         => 30
+            CURLOPT_TIMEOUT         => 30,
+            CURLOPT_IPRESOLVE       => CURL_IPRESOLVE_V4
         ));
     }
 
@@ -140,6 +141,20 @@ class Curl
         }
     }
 
+    public function setCookie($cookie)
+    {
+        $cookieData = '';
+        foreach ($cookie as $k => $v) {
+            $cookieData .= "$k=$v;";
+        }
+        $this->setOption(CURLOPT_COOKIE, $cookieData);
+    }
+
+    public function setHeader($header)
+    {
+        $this->header->setMultiple($header);
+    }
+
     public function get($uri, $params = array())
     {
         $uri = $this->resolveUri($uri);
@@ -200,7 +215,6 @@ class Curl
         ));
 
         $this->initPostFields($params, $useEncoding);
-
         return $this->send();
     }
 

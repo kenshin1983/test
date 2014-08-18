@@ -17,7 +17,7 @@ if (isset($_GET['r'])) {
 	$api = current(current($list));
 }
 
-$cookie = isset($_COOKIE[API_COOKIE_KEY]) ? unserialize($_COOKIE[API_COOKIE_KEY]) : array();
+$cookie = isset($_COOKIE[API_COOKIE_KEY]) ? $_COOKIE[API_COOKIE_KEY] : '';
 
 $curl = new Curl();
 $curl->setCookie($cookie);
@@ -28,25 +28,7 @@ $currentUser = json_decode($currentUser->body, true);
 $response = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	//curl发送请求
-    // $curl->get(API_URL . $api['url'] . 'status');
-	$url = API_URL . $api['url'];
-    $method = strtolower($api['type']);
-    $postData = array();
-    foreach ($_POST as $key => $value) {
-        if ($value === '') continue;
-        $postData[$key] = $value;
-    }
-    $curl->setCookie($cookie);
-    $curl->setHeader(array('X-Requested-With' => 'XMLHttpRequest'));
-    $response = $curl->$method($url, $postData);
-    if ($response->header->has('Set-Cookie')) {
-        $line = $response->header->get('Set-Cookie');
-        if (preg_match('/^[\s]*([^=]+)=([^;]+)/i', $line,$match)) {//获取cookie
-            $cookie[$match[1]] = $match[2];
-        }
-        @setcookie(API_COOKIE_KEY, serialize($cookie));
-    }
-    $response = json_decode($response->body, true);
+    $response = Common::doRequest($api['url'], $api['type'], $_POST, $cookie);
 }
 
 
@@ -109,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<?php if (!empty($api['captcha'])) : ?>
 					<div class="form-group">
 						<label for="exampleInputPassword1">验证码</label>
-						<p class="form-control-static"><img src="<?php echo Common::getCaptcha(API_URL . $api['captcha'], $cookie) ?>"></p>
+						<p class="form-control-static"><img src="<?php echo Common::getCaptcha($api['captcha'], $cookie) ?>"></p>
 					</div>
 				<?php endif;?>
 				<button type="submit" class="btn btn-default">Submit</button>

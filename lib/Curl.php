@@ -143,11 +143,7 @@ class Curl
 
     public function setCookie($cookie)
     {
-        $cookieData = '';
-        foreach ($cookie as $k => $v) {
-            $cookieData .= "$k=$v;";
-        }
-        $this->setOption(CURLOPT_COOKIE, $cookieData);
+        $this->setOption(CURLOPT_COOKIE, $cookie);
     }
 
     public function setHeader($header)
